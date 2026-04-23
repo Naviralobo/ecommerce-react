@@ -3,16 +3,17 @@ import "./index.css";
 import Home from "./pages/Home";
 import ProducDetails from "./pages/ProducDetails";
 import Cart from "./pages/Cart";
+import MainLayout from "./components/layout/MainLayout";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <MainLayout>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProducDetails />} />
         <Route path="/cart" element={<Cart />} />
       </Routes>
-    </div>
+    </MainLayout>
   );
 }
 
