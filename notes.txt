@@ -1,0 +1,31 @@
+*********************FOLDER STRUCTURE ***********************
+
+src/
+  components/
+    layout/
+    ui/
+    product/
+  pages/
+  features/
+    cart/
+    products/
+    auth/
+  hooks/
+  store/
+  services/
+  types/
+  utils/
+
+Why This Matters
+components/ → reusable UI pieces
+features/ → domain logic (cart, products, auth)
+pages/ → route-level screens
+services/ → API calls
+store/ → Zustand state
+types/ → TypeScript types (important later)🧠 Why This Matters
+components/ → reusable UI pieces
+features/ → domain logic (cart, products, auth)
+pages/ → route-level screens
+services/ → API calls
+store/ → Zustand state
+types/ → TypeScript types (important later)
