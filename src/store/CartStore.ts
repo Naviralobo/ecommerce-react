@@ -8,6 +8,9 @@ type CartItem = Product & {
 type CartState = {
   cart: CartItem[];
   addToCart: (product: Product) => void;
+  removeFromCart: (id: number) => void;
+  increaseQty: (id: number) => void;
+  decreaseQty: (id: number) => void;
 };
 // set is a function provided by Zustand that allows you to update the state of the store. In this case, it's used to add products to the cart and manage the quantity of each product in the cart.
 export const useCartStore = create<CartState>((set) => ({
@@ -32,4 +35,25 @@ export const useCartStore = create<CartState>((set) => ({
         cart: [...state.cart, { ...product, quantity: 1 }],
       };
     }),
+
+  removeFromCart: (id) =>
+    set((state) => ({
+      cart: state.cart.filter((item) => item.id !== id),
+    })),
+
+  increaseQty: (id) =>
+    set((state) => ({
+      cart: state.cart.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + 1 } : item,
+      ),
+    })),
+
+  decreaseQty: (id) =>
+    set((state) => ({
+      cart: state.cart
+        .map((item) =>
+          item.id === id ? { ...item, quantity: item.quantity - 1 } : item,
+        )
+        .filter((item) => item.quantity > 0),
+    })),
 }));
