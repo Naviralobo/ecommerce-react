@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useProduct } from "../features/products/useProduct";
+import { useCartStore } from "../store/CartStore";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const { data, isLoading, error } = useProduct(id!);
+
+  const addToCart = useCartStore((state) => state.addToCart);
 
   if (isLoading) return <p>Loading product...</p>;
   if (error || !data) return <p>Product not found</p>;
@@ -27,7 +30,10 @@ const ProductDetails = () => {
 
         <p className="text-xl font-bold mt-6">${data.price}</p>
 
-        <button className="mt-6 bg-(--color-accent) text-white px-6 py-2 rounded-lg hover:opacity-90 hover:cursor-pointer transition">
+        <button
+          onClick={() => addToCart(data)}
+          className="mt-6 bg-(--color-accent) text-white px-6 py-2 rounded-lg hover:opacity-90 hover:cursor-pointer transition"
+        >
           Add to Cart
         </button>
       </div>
