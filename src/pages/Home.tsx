@@ -7,12 +7,21 @@ import ProductSkeleton from "../components/ui/ProductSkeleton";
 const Home = () => {
   const [search, setSearch] = useState("");
   const [isPending, startTransition] = useTransition();
+  const [category, setCategory] = useState("all");
 
   const { data, isLoading, error } = useProducts();
 
-  const filteredProducts = data?.filter((product) =>
-    product.title.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filteredProducts = data?.filter((product) => {
+    const matchesSearch = product.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesCategory = category === "all" || product.category === category;
+
+    return matchesSearch && matchesCategory;
+  });
+
+  const categories = ["all", ...new Set(data?.map((p) => p.category))];
 
   if (isLoading) {
     return (
@@ -43,6 +52,24 @@ const Home = () => {
       {isPending && (
         <p className="text-sm text-(--color-muted) mb-2">Filtering...</p>
       )}
+
+      <div className="flex gap-3 flex-wrap mb-6">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => startTransition(() => setCategory(cat))}
+            className={`px-4 py-1 rounded-full text-sm border transition hover:cursor-pointer
+        ${
+          category === cat
+            ? "bg-(--color-accent) text-white"
+            : "bg-(--color-surface) text-(--color-muted)"
+        }
+      `}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts?.map((product) => (
