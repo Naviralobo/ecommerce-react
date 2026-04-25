@@ -1,20 +1,24 @@
 import { useState, useTransition } from "react";
 
 import { useProducts } from "../features/products/useProducts";
+import { useDebounce } from "../hooks/useDebounce";
+
 import ProductCard from "../components/product/ProductCard";
 import ProductSkeleton from "../components/ui/ProductSkeleton";
 
 const Home = () => {
   const [search, setSearch] = useState("");
-  const [isPending, startTransition] = useTransition();
   const [category, setCategory] = useState("all");
 
+  const [isPending, startTransition] = useTransition();
+
   const { data, isLoading, error } = useProducts();
+  const debouncedSearch = useDebounce(search, 300);
 
   const filteredProducts = data?.filter((product) => {
     const matchesSearch = product.title
       .toLowerCase()
-      .includes(search.toLowerCase());
+      .includes(debouncedSearch.toLowerCase());
 
     const matchesCategory = category === "all" || product.category === category;
 
@@ -49,9 +53,9 @@ const Home = () => {
           });
         }}
       />
-      {isPending && (
+      {/* {isPending && (
         <p className="text-sm text-(--color-muted) mb-2">Filtering...</p>
-      )}
+      )} */}
 
       <div className="flex gap-3 flex-wrap mb-6">
         {categories.map((cat) => (
