@@ -10,7 +10,7 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("all");
 
-  const [isPending, startTransition] = useTransition();
+  const [_, startTransition] = useTransition();
 
   const { data, isLoading, error } = useProducts();
   const debouncedSearch = useDebounce(search, 300);

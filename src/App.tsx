@@ -1,17 +1,25 @@
 import { Route, Routes } from "react-router-dom";
-import "./index.css";
-import Home from "./pages/Home";
-import ProducDetails from "./pages/ProducDetails";
-import Cart from "./pages/Cart";
+
 import MainLayout from "./components/layout/MainLayout";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
+import Cart from "./pages/Cart";
+import ProducDetails from "./pages/ProducDetails";
+
+import "./index.css";
 
 function App() {
   return (
     <MainLayout>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<ProducDetails />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
         <Route path="/cart" element={<Cart />} />
+        <Route path="/" element={<Home />} />
+
+        <Route path="/product/:id" element={<ProducDetails />} />
       </Routes>
     </MainLayout>
   );
