@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useProduct } from "../features/products/useProduct";
 import { useCartStore } from "../store/CartStore";
 import ProductDetailsSkeleton from "../components/ui/ProductDetailsSkeleton";
@@ -32,7 +33,10 @@ const ProductDetails = () => {
         <p className="text-xl font-bold mt-6">${data.price}</p>
 
         <button
-          onClick={() => addToCart(data)}
+          onClick={() => {
+            addToCart(data);
+            toast.success("Added to cart");
+          }}
           className="mt-6 bg-(--color-accent) text-white px-6 py-2 rounded-lg hover:opacity-90 hover:cursor-pointer transition"
         >
           Add to Cart
