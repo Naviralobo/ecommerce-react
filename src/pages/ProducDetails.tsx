@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useProduct } from "../features/products/useProduct";
 import { useCartStore } from "../store/CartStore";
+import ProductDetailsSkeleton from "../components/ui/ProductDetailsSkeleton";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -8,7 +9,7 @@ const ProductDetails = () => {
 
   const addToCart = useCartStore((state) => state.addToCart);
 
-  if (isLoading) return <p>Loading product...</p>;
+  if (isLoading) return <ProductDetailsSkeleton />;
   if (error || !data) return <p>Product not found</p>;
 
   return (
