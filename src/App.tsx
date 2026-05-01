@@ -9,10 +9,12 @@ import ProducDetails from "./pages/ProducDetails";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import "./index.css";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 function App() {
   return (
     <MainLayout>
+      <ScrollToTop />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
