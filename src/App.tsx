@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import ProducDetails from "./pages/ProducDetails";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import "./index.css";
 
@@ -16,7 +17,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/" element={<Home />} />
 
         <Route path="/product/:id" element={<ProducDetails />} />
