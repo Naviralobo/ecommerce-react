@@ -5,6 +5,7 @@ import { useDebounce } from "../hooks/useDebounce";
 
 import ProductCard from "../components/product/ProductCard";
 import ProductSkeleton from "../components/ui/ProductSkeleton";
+import PageWrapper from "../components/common/pageWrapper";
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -39,7 +40,7 @@ const Home = () => {
   if (error) return <p>Failed to load products</p>;
 
   return (
-    <div>
+    <PageWrapper>
       <h1 className="text-2xl font-bold mb-6">Products</h1>
 
       <input
@@ -80,7 +81,7 @@ const Home = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 
