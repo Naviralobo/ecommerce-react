@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --color-primary: #0f172a;    
   --color-accent: #6366f1;      
