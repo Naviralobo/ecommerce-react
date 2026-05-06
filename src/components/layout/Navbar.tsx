@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
-
+import { Heart, ShoppingCart } from "lucide-react";
 import { useCartStore } from "../../store/CartStore";
 
 import { navLinkClass } from "../../utils/styles";
+import { useWishlistStore } from "../../store/wishlistStore";
 
 const Navbar = () => {
   const cart = useCartStore((state) => state.cart);
+  const { wishlist } = useWishlistStore();
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const wishlistCount = wishlist.length;
   return (
     <header className="bg-(--color-surface)/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -26,10 +29,22 @@ const Navbar = () => {
             to="/cart"
             className="relative text-(--color-muted hover:text-(--color-text) transition"
           >
-            Cart
+            <ShoppingCart />
             {totalItems > 0 && (
-              <span className="absolute -top-2 -right-3 bg-(--color-accent) text-white text-xs px-2 py-0.5 rounded-full">
+              <span className="absolute -top-2 -right-3 bg-(--color-accent) text-white text-xs px-1.5 py-0.5 rounded-full">
                 {totalItems}
+              </span>
+            )}
+          </Link>
+
+          <Link
+            to="/wishlist"
+            className="relative text-(--color-muted hover:text-(--color-text) transition"
+          >
+            <Heart />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-2 -right-3 bg-(--color-accent) text-white text-xs px-1.5 py-0.5 rounded-full">
+                {wishlistCount}
               </span>
             )}
           </Link>

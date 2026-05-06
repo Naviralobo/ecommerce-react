@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import "./index.css";
 import ScrollToTop from "./components/common/ScrollToTop";
+import Wishlist from "./pages/Wishlist";
 
 function App() {
   return (
@@ -19,17 +20,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route
-          path="/cart"
-          element={
-            <ProtectedRoute>
-              <Cart />
-            </ProtectedRoute>
-          }
-        />
         <Route path="/" element={<Home />} />
-
         <Route path="/product/:id" element={<ProducDetails />} />
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/wishlist" element={<Wishlist />} />
+        </Route>
       </Routes>
     </MainLayout>
   );
