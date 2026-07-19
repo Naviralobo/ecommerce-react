@@ -5,7 +5,7 @@ import { useDebounce } from "../hooks/useDebounce";
 
 import ProductCard from "../components/product/ProductCard";
 import ProductSkeleton from "../components/ui/ProductSkeleton";
-import PageWrapper from "../components/common/pageWrapper";
+import PageWrapper from "../components/common/PageWrapper";
 
 const Home = () => {
   const [search, setSearch] = useState("");
