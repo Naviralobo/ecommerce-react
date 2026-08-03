@@ -1,31 +1,31 @@
 import { useParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useProduct } from "../features/products/useProduct";
+// import { useProduct } from "../features/products/useProduct";
 import { useCartStore } from "../store/CartStore";
 import ProductDetailsSkeleton from "../components/ui/ProductDetailsSkeleton";
 
 const ProductDetails = () => {
-  const { id } = useParams();
-  const { data, isLoading, error } = useProduct(id!);
+  // const { id } = useParams();
+  // const { data, isLoading, error } = useProduct(id!);
 
   const addToCart = useCartStore((state) => state.addToCart);
 
-  if (isLoading) return <ProductDetailsSkeleton />;
-  if (error || !data) return <p>Product not found</p>;
+  // if (isLoading) return <ProductDetailsSkeleton />;
+  // if (error || !data) return <p>Product not found</p>;
 
   return (
     <div className="grid md:grid-cols-2 gap-10">
       {/* Image */}
       <div className="bg-(--color-surface) p-6 rounded-xl flex justify-center">
-        <img
+        {/* <img
           src={data.image}
           className="h-80 object-contain"
           alt={data.title}
-        />
+        /> */}
       </div>
 
       {/* Details */}
-      <div>
+      {/* <div>
         <h1 className="text-2xl font-bold">{data.title}</h1>
 
         <p className="text-gray-600 mt-4">{data.description}</p>
@@ -41,7 +41,7 @@ const ProductDetails = () => {
         >
           Add to Cart
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

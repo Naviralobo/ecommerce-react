@@ -1,10 +1,10 @@
 import { useState, useTransition } from "react";
 
-import { useProducts } from "../features/products/useProducts";
-import { useDebounce } from "../hooks/useDebounce";
+// import { useProducts } from "../features/products/useProducts";
+// import { useDebounce } from "../hooks/useDebounce";
 
-import ProductCard from "../components/product/ProductCard";
-import ProductSkeleton from "../components/ui/ProductSkeleton";
+// import ProductCard from "../components/product/ProductCard";
+// import ProductSkeleton from "../components/ui/ProductSkeleton";
 import PageWrapper from "../components/common/PageWrapper";
 
 const Home = () => {
@@ -13,31 +13,31 @@ const Home = () => {
 
   const [_, startTransition] = useTransition();
 
-  const { data, isLoading, error } = useProducts();
-  const debouncedSearch = useDebounce(search, 300);
+  // const { data, isLoading, error } = useProducts();
+  // const debouncedSearch = useDebounce(search, 300);
 
-  const filteredProducts = data?.filter((product) => {
-    const matchesSearch = product.title
-      .toLowerCase()
-      .includes(debouncedSearch.toLowerCase());
+  // const filteredProducts = data?.filter((product) => {
+  //   const matchesSearch = product.title
+  //     .toLowerCase()
+  //     .includes(debouncedSearch.toLowerCase());
 
-    const matchesCategory = category === "all" || product.category === category;
+  //   const matchesCategory = category === "all" || product.category === category;
 
-    return matchesSearch && matchesCategory;
-  });
+  //   return matchesSearch && matchesCategory;
+  // });
 
-  const categories = ["all", ...new Set(data?.map((p) => p.category))];
+  // const categories = ["all", ...new Set(data?.map((p) => p.category))];
 
-  if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <ProductSkeleton key={i} />
-        ))}
-      </div>
-    );
-  }
-  if (error) return <p>Failed to load products</p>;
+  // if (isLoading) {
+  //   return (
+  //     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  //       {Array.from({ length: 8 }).map((_, i) => (
+  //         <ProductSkeleton key={i} />
+  //       ))}
+  //     </div>
+  //   );
+  // }
+  // if (error) return <p>Failed to load products</p>;
 
   return (
     <PageWrapper>
@@ -58,7 +58,7 @@ const Home = () => {
         <p className="text-sm text-(--color-muted) mb-2">Filtering...</p>
       )} */}
 
-      <div className="flex gap-3 flex-wrap mb-6">
+      {/* <div className="flex gap-3 flex-wrap mb-6">
         {categories.map((cat) => (
           <button
             key={cat}
@@ -74,13 +74,13 @@ const Home = () => {
             {cat}
           </button>
         ))}
-      </div>
+      </div> */}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts?.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
-      </div>
+      </div> */}
     </PageWrapper>
   );
 };
