@@ -1,30 +1,48 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/authStore";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
+import { useRegisterMutation } from "../features/auth/authApi";
+import type { ApiError } from "../types/api";
+
 const Register = () => {
-  const signup = useAuthStore((state) => state.signup);
   const navigate = useNavigate();
 
+  const [register, { isLoading }] = useRegisterMutation();
+
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignup = () => {
-    const error = signup(email, password);
+  const handleRegister = async () => {
+    try {
+      const response = await register({
+        name,
+        email,
+        password,
+      }).unwrap();
 
-    if (error) {
-      toast.error(error);
-      return;
+      toast.success(response.message);
+
+      navigate("/login");
+    } catch (error) {
+      const err = error as ApiError;
+
+      toast.error(err.data?.message ?? "Registration failed");
     }
-
-    toast.success("Account created");
-    navigate("/");
   };
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-(--color-surface) p-6 rounded-xl shadow">
       <h1 className="text-xl font-bold mb-4">Sign Up</h1>
+
+      <input
+        type="text"
+        placeholder="Name"
+        className="w-full mb-3 p-2 border rounded"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
 
       <input
         type="email"
@@ -43,10 +61,11 @@ const Register = () => {
       />
 
       <button
-        onClick={handleSignup}
-        className="w-full bg-(--color-accent) text-white py-2 rounded"
+        onClick={handleRegister}
+        disabled={isLoading}
+        className="w-full bg-(--color-accent) text-white py-2 rounded disabled:opacity-50"
       >
-        Sign Up
+        {isLoading ? "Creating Account..." : "Sign Up"}
       </button>
 
       <p className="text-sm mt-4">

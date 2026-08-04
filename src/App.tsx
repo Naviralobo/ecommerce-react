@@ -6,11 +6,11 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import ProducDetails from "./pages/ProducDetails";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 import "./index.css";
 import ScrollToTop from "./components/common/ScrollToTop";
 import Wishlist from "./pages/Wishlist";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
   return (

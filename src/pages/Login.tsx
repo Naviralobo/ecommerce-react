@@ -1,25 +1,36 @@
 import { useState } from "react";
-import { useAuthStore } from "../store/authStore";
 import { useNavigate, Link } from "react-router-dom";
+import { useLoginMutation } from "../features/auth/authApi";
+import { useAppDispatch } from "../hooks/redux";
+import { setCredentials } from "../features/auth/authSlice";
+import type { ApiError } from "../types/api";
 import toast from "react-hot-toast";
 
 const Login = () => {
-  const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const [login, { isLoading }] = useLoginMutation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    const error = login(email, password);
+  const handleLogin = async () => {
+    try {
+      const response = await login({
+        email,
+        password,
+      }).unwrap();
 
-    if (error) {
-      toast.error(error);
-      return;
+      dispatch(setCredentials(response.data));
+
+      toast.success(response.message);
+
+      navigate("/");
+    } catch (error) {
+      const err = error as ApiError;
+      toast.error(err?.data?.message || "Login failed");
     }
-
-    toast.success("Logged in successfully");
-    navigate("/");
   };
 
   return (
@@ -43,10 +54,11 @@ const Login = () => {
       />
 
       <button
+        disabled={isLoading}
         onClick={handleLogin}
         className="w-full bg-(--color-accent) text-white py-2 rounded"
       >
-        Login
+        {isLoading ? "Logging in..." : "Login"}
       </button>
 
       <p className="text-sm mt-4">
