@@ -2,6 +2,14 @@ import type { Product } from "../../types/product";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
+import toast from "react-hot-toast";
+
+import {
+  useAddToWishlistMutation,
+  useGetWishlistQuery,
+  useRemoveFromWishlistMutation,
+} from "../../features/wishlist/wishlistApi";
+import type { ApiError } from "../../types/api";
 
 type Props = {
   product: Product;
@@ -10,7 +18,34 @@ type Props = {
 const ProductCard = ({ product }: Props) => {
   const navigate = useNavigate();
 
-  const isWishlisted = false;
+  const { data } = useGetWishlistQuery();
+
+  const [addToWishlist, { isLoading: isAdding }] = useAddToWishlistMutation();
+
+  const [removeFromWishlist, { isLoading: isRemoving }] =
+    useRemoveFromWishlistMutation();
+
+  const isWishlistLoading = isAdding || isRemoving;
+
+  const isWishlisted =
+    data?.data.products.some((p) => p._id === product._id) ?? false;
+
+  const handleWishlist = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    try {
+      if (isWishlisted) {
+        await removeFromWishlist(product._id).unwrap();
+        toast.success("Removed from wishlist");
+      } else {
+        await addToWishlist(product._id).unwrap();
+        toast.success("Added to wishlist");
+      }
+    } catch (error) {
+      const err = error as ApiError;
+      toast.error(err.data?.message ?? "Wishlist operation failed");
+    }
+  };
 
   return (
     <motion.div
@@ -38,10 +73,8 @@ const ProductCard = ({ product }: Props) => {
       <button
         type="button"
         aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-        onClick={(e) => {
-          e.stopPropagation();
-          // toggleWishlist(product);
-        }}
+        onClick={handleWishlist}
+        disabled={isWishlistLoading}
         className="absolute top-3 right-3"
       >
         <Heart

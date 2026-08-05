@@ -3,14 +3,14 @@ import { Heart, ShoppingCart } from "lucide-react";
 import { useCartStore } from "../../store/CartStore";
 
 import { navLinkClass } from "../../utils/styles";
-import { useWishlistStore } from "../../store/wishlistStore";
+import { useGetWishlistQuery } from "../../features/wishlist/wishlistApi";
 
 const Navbar = () => {
   const cart = useCartStore((state) => state.cart);
-  const { wishlist } = useWishlistStore();
+  const { data } = useGetWishlistQuery();
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-  const wishlistCount = wishlist.length;
+  const wishlistCount = data?.data.products.length ?? 0;
   return (
     <header className="bg-(--color-surface)/80 backdrop-blur-md sticky top-0 z-50 border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
