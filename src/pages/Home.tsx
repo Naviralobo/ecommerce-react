@@ -12,13 +12,14 @@ const Home = () => {
   const [category, setCategory] = useState("all");
 
   const [_, startTransition] = useTransition();
+  
 
   const { data, isLoading, error } = useGetProductsQuery();
 
   const filteredProducts = data?.data.filter((product) => {
-    const matchesSearch = product.name
+    const matchesSearch = product?.name
       .toLowerCase()
-      .includes(search.toLowerCase());
+      .includes(search?.toLowerCase());
 
     const matchesCategory = category === "all" || product.category === category;
 
