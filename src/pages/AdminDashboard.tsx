@@ -60,7 +60,7 @@ const AdminDashboard = () => {
                   <td className="p-4 capitalize">{user.role}</td>
 
                   <td className="p-4">
-                    {user.role === "CUSTOMER" ? (
+                    {user.role === "customer" ? (
                       <button
                         type="button"
                         disabled={isMakingSeller}
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
               <div className="flex items-center justify-between gap-3">
                 <span className="capitalize text-sm">{user.role}</span>
 
-                {user.role === "CUSTOMER" && (
+                {user.role === "customer" && (
                   <button
                     type="button"
                     disabled={isMakingSeller}

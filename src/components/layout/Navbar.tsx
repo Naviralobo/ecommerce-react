@@ -83,7 +83,11 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
+            {user?.role === "seller" && (
+              <Link to="/seller">Seller Dashboard</Link>
+            )}
 
+            {user?.role === "admin" && <Link to="/admin">Admin Dashboard</Link>}
             {user ? (
               <button
                 type="button"
