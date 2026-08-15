@@ -3,6 +3,7 @@ import type { ApiResponse } from "../../types/auth";
 
 interface UploadResponse {
   key: string;
+  url: string;
 }
 
 export const uploadApi = apiSlice.injectEndpoints({

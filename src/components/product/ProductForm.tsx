@@ -86,6 +86,11 @@ const ProductForm = ({ product }: ProductFormProps) => {
         const response = await uploadImage(formData).unwrap();
 
         imageKey = response.data.key;
+        const previewUrl = response.data.url;
+
+        if (previewUrl) {
+          setImagePreview(previewUrl);
+        }
       }
 
       if (isEditMode && product) {

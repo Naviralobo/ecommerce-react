@@ -61,6 +61,11 @@ const SellerDashboard = () => {
       const uploadResponse = await uploadImage(formData).unwrap();
 
       const imageKey = uploadResponse.data.key;
+      const imageUrl = uploadResponse.data.url;
+
+      if (imageUrl) {
+        setImagePreview(imageUrl);
+      }
 
       // 2. Create product using uploaded image key
       await createProduct({
