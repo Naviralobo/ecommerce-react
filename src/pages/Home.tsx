@@ -1,7 +1,5 @@
 import { useState, useTransition } from "react";
 
-import { useDebounce } from "../hooks/useDebounce";
-
 import ProductCard from "../components/product/ProductCard";
 import ProductSkeleton from "../components/ui/ProductSkeleton";
 import PageWrapper from "../components/common/PageWrapper";
@@ -12,7 +10,6 @@ const Home = () => {
   const [category, setCategory] = useState("all");
 
   const [_, startTransition] = useTransition();
-  
 
   const { data, isLoading, error } = useGetProductsQuery();
 
