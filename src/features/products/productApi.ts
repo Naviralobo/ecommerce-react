@@ -11,6 +11,11 @@ export interface CreateProductRequest {
   images: string[];
 }
 
+export interface UpdateProductRequest {
+  id: string;
+  data: Partial<CreateProductRequest>;
+}
+
 export const productApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query<ApiResponse<Product[]>, void>({
@@ -18,6 +23,7 @@ export const productApi = apiSlice.injectEndpoints({
         url: "/products",
         method: "GET",
       }),
+
       providesTags: ["Product"],
     }),
 
@@ -26,6 +32,7 @@ export const productApi = apiSlice.injectEndpoints({
         url: `/products/${id}`,
         method: "GET",
       }),
+
       providesTags: (_result, _error, id) => [{ type: "Product", id }],
     }),
 
@@ -36,9 +43,31 @@ export const productApi = apiSlice.injectEndpoints({
           method: "POST",
           data: product,
         }),
+
         invalidatesTags: ["Product"],
       },
     ),
+
+    updateProduct: builder.mutation<ApiResponse<Product>, UpdateProductRequest>(
+      {
+        query: ({ id, data }) => ({
+          url: `/products/${id}`,
+          method: "PUT",
+          data,
+        }),
+
+        invalidatesTags: ["Product"],
+      },
+    ),
+
+    deleteProduct: builder.mutation<ApiResponse<null>, string>({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "DELETE",
+      }),
+
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
@@ -46,4 +75,6 @@ export const {
   useGetProductsQuery,
   useGetProductByIdQuery,
   useCreateProductMutation,
+  useUpdateProductMutation,
+  useDeleteProductMutation,
 } = productApi;

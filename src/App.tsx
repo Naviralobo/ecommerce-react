@@ -9,6 +9,8 @@ import ProducDetails from "./pages/ProducDetails";
 import AdminDashboard from "./pages/AdminDashboard";
 import SellerDashboard from "./pages/SellerDashboard";
 import Wishlist from "./pages/Wishlist";
+import AdminInventory from "./pages/AdminInventory";
+import AdminProductForm from "./pages/AdminProductForm";
 
 import "./index.css";
 import ScrollToTop from "./components/common/ScrollToTop";
@@ -27,6 +29,12 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/inventory" element={<AdminInventory />} />
+          <Route path="/admin/inventory/add" element={<AdminProductForm />} />
+          <Route
+            path="/admin/inventory/edit/:id"
+            element={<AdminProductForm />}
+          />
           <Route path="/seller" element={<SellerDashboard />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
