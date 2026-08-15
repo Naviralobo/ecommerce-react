@@ -1,73 +1,102 @@
-// import { useCartStore } from "../store/CartStore";
+import PageWrapper from "../components/common/PageWrapper";
+import CartItem from "../components/cart/CartItem";
+import {
+  useClearCartMutation,
+  useGetCartQuery,
+} from "../features/cart/cartApi";
+import toast from "react-hot-toast";
 
 const Cart = () => {
-  // const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
+  const { data, isLoading, error } = useGetCartQuery();
 
-  // const total = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const [clearCart, { isLoading: isClearing }] = useClearCartMutation();
 
-  // if (cart.length === 0) {
-  //   return <p className="text-center mt-10">Your cart is empty</p>;
-  // }
+  if (isLoading) {
+    return (
+      <PageWrapper>
+        <p>Loading cart...</p>
+      </PageWrapper>
+    );
+  }
+
+  if (error) {
+    return (
+      <PageWrapper>
+        <p>Failed to load cart.</p>
+      </PageWrapper>
+    );
+  }
+
+  const items = data?.data.items ?? [];
+
+  const total = items.reduce(
+    (sum, item) => sum + item.product.price * item.quantity,
+    0,
+  );
+
+  const handleClearCart = async () => {
+    try {
+      await clearCart().unwrap();
+      toast.success("Cart cleared");
+    } catch (error: any) {
+      toast.error(error?.data?.message ?? "Failed to clear cart");
+    }
+  };
+
+  if (items.length === 0) {
+    return (
+      <PageWrapper>
+        <h1 className="text-2xl font-bold mb-6">Cart</h1>
+
+        <p>Your cart is empty.</p>
+      </PageWrapper>
+    );
+  }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
+    <PageWrapper>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Cart</h1>
 
-      <div className="space-y-6">
-        {/* {cart.map((item) => (
-          <div
-            key={item.id}
-            className="flex gap-4 bg-(--color-surface) p-4 rounded-xl shadow-sm"
-          >
-            <img
-              alt={item.title}
-              src={item.image}
-              className="h-20 w-20 object-contain"
-            />
-
-            <div className="flex-1">
-              <h2 className="text-sm font-medium">{item.title}</h2>
-
-              <p className="font-bold mt-1">${item.price}</p>
-
-              <div className="flex items-center gap-3 mt-3">
-                <button
-                  onClick={() => decreaseQty(item.id)}
-                  className="px-2 py-1 bg-gray-200 rounded"
-                >
-                  -
-                </button>
-
-                <span>{item.quantity}</span>
-
-                <button
-                  onClick={() => increaseQty(item.id)}
-                  className="px-2 py-1 bg-gray-200 rounded"
-                >
-                  +
-                </button>
-
-                <button
-                  onClick={() => removeFromCart(item.id)}
-                  className="ml-4 text-red-500 text-sm"
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          </div>
-        ))} */}
-      </div>
-
-      {/* Total */}
-      <div className="mt-8 text-right">
-        {/* <h2 className="text-xl font-bold">Total: ${total.toFixed(2)}</h2> */}
-
-        <button className="mt-4 bg-(--color-accent) text-white px-6 py-2 rounded-lg hover:opacity-90 transition">
-          Checkout
+        <button
+          type="button"
+          onClick={handleClearCart}
+          disabled={isClearing}
+          className="text-sm text-red-500"
+        >
+          {isClearing ? "Clearing..." : "Clear cart"}
         </button>
       </div>
-    </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2">
+          {items.map((item) => (
+            <CartItem key={item.product._id} item={item} />
+          ))}
+        </div>
+
+        <div className="h-fit rounded-xl bg-(--color-surface) p-6 shadow-sm">
+          <h2 className="text-lg font-bold mb-4">Order Summary</h2>
+
+          <div className="flex justify-between mb-3">
+            <span>Items</span>
+            <span>{items.length}</span>
+          </div>
+
+          <div className="border-t pt-4 flex justify-between font-bold">
+            <span>Total</span>
+            <span>${total.toFixed(2)}</span>
+          </div>
+
+          <button
+            type="button"
+            className="w-full mt-6 rounded-lg bg-(--color-primary) py-3 text-white"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
+      </div>
+    </PageWrapper>
   );
 };
 
