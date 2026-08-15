@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import type React from "react";
 
 const PageWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
