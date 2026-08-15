@@ -2,6 +2,7 @@ import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import axiosInstance from "./axios";
 import { AxiosError } from "axios";
 import type { RootState } from "../app/store";
+import { setAccessToken, logout } from "../features/auth/authSlice";
 
 type AxiosBaseQueryArgs = {
   url: string;
@@ -36,6 +37,39 @@ export const axiosBaseQuery =
       return { data: result.data };
     } catch (error) {
       const err = error as AxiosError;
+
+      if (err.response?.status === 401) {
+        try {
+          const refreshResponse = await axiosInstance.post("/auth/refresh");
+
+          const newAccessToken = refreshResponse.data.data.accessToken;
+
+          api.dispatch(setAccessToken(newAccessToken));
+
+          const retryResult = await axiosInstance({
+            url,
+            method,
+            data,
+            params,
+            headers: {
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+          });
+
+          return { data: retryResult.data };
+        } catch (refreshError) {
+          api.dispatch(logout());
+
+          const refreshErr = refreshError as AxiosError;
+
+          return {
+            error: {
+              status: refreshErr.response?.status,
+              data: refreshErr.response?.data ?? refreshErr.message,
+            },
+          };
+        }
+      }
 
       return {
         error: {
