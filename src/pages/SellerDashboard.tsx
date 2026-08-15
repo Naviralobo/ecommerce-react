@@ -1,12 +1,18 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+
 import { useCreateProductMutation } from "../features/products/productApi";
+import { useUploadImageMutation } from "../features/upload/uploadApi";
 
 const SellerDashboard = () => {
   const navigate = useNavigate();
 
-  const [createProduct, { isLoading }] = useCreateProductMutation();
+  const [createProduct, { isLoading: isCreatingProduct }] =
+    useCreateProductMutation();
+
+  const [uploadImage, { isLoading: isUploadingImage }] =
+    useUploadImageMutation();
 
   const [form, setForm] = useState({
     name: "",
@@ -15,6 +21,9 @@ const SellerDashboard = () => {
     category: "",
     stock: "",
   });
+
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -25,21 +34,47 @@ const SellerDashboard = () => {
     }));
   };
 
+  const handleImageChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    setImage(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!image) {
+      toast.error("Please select a product image");
+      return;
+    }
+
     try {
+      // 1. Upload image
+      const formData = new FormData();
+      formData.append("image", image);
+
+      const uploadResponse = await uploadImage(formData).unwrap();
+
+      const imageKey = uploadResponse.data.key;
+
+      // 2. Create product using uploaded image key
       await createProduct({
         name: form.name,
         description: form.description,
         price: Number(form.price),
         category: form.category,
         stock: Number(form.stock),
-        images: [],
+        images: [imageKey],
       }).unwrap();
 
       toast.success("Product created successfully");
 
+      // 3. Reset form
       setForm({
         name: "",
         description: "",
@@ -48,6 +83,10 @@ const SellerDashboard = () => {
         stock: "",
       });
 
+      setImage(null);
+      setImagePreview("");
+
+      // 4. Go back to products
       navigate("/");
     } catch (error) {
       console.error(error);
@@ -55,10 +94,13 @@ const SellerDashboard = () => {
     }
   };
 
+  const isSubmitting = isUploadingImage || isCreatingProduct;
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <div className="mb-6">
         <h1 className="text-2xl font-bold">Seller Dashboard</h1>
+
         <p className="text-(--color-muted) mt-1">
           Add a new product to your store.
         </p>
@@ -68,6 +110,7 @@ const SellerDashboard = () => {
         onSubmit={handleSubmit}
         className="bg-(--color-surface) p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200 space-y-5"
       >
+        {/* Product Name */}
         <div>
           <label className="block text-sm font-medium mb-2">
             Product name
@@ -83,6 +126,7 @@ const SellerDashboard = () => {
           />
         </div>
 
+        {/* Description */}
         <div>
           <label className="block text-sm font-medium mb-2">
             Description
@@ -99,6 +143,7 @@ const SellerDashboard = () => {
           />
         </div>
 
+        {/* Price + Stock */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium mb-2">
@@ -135,6 +180,7 @@ const SellerDashboard = () => {
           </div>
         </div>
 
+        {/* Category */}
         <div>
           <label className="block text-sm font-medium mb-2">
             Category
@@ -150,12 +196,41 @@ const SellerDashboard = () => {
           />
         </div>
 
+        {/* Image */}
+        <div>
+          <label className="block text-sm font-medium mb-2">
+            Product image
+          </label>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="w-full text-sm"
+          />
+
+          {imagePreview && (
+            <div className="mt-4">
+              <img
+                src={imagePreview}
+                alt="Product preview"
+                className="w-full max-h-64 object-contain rounded-lg border"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Submit */}
         <button
           type="submit"
-          disabled={isLoading}
+          disabled={isSubmitting}
           className="w-full bg-(--color-accent) text-white py-3 rounded-lg font-medium disabled:opacity-50"
         >
-          {isLoading ? "Creating product..." : "Create Product"}
+          {isUploadingImage
+            ? "Uploading image..."
+            : isCreatingProduct
+              ? "Creating product..."
+              : "Create Product"}
         </button>
       </form>
     </div>
@@ -163,4 +238,3 @@ const SellerDashboard = () => {
 };
 
 export default SellerDashboard;
-

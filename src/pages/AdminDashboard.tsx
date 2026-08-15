@@ -64,7 +64,7 @@ const AdminDashboard = () => {
                       <button
                         type="button"
                         disabled={isMakingSeller}
-                        onClick={() => handleMakeSeller(user.id)}
+                        onClick={() => handleMakeSeller(user._id)}
                         className="bg-(--color-accent) text-white px-3 py-2 rounded-lg text-sm disabled:opacity-50"
                       >
                         {isMakingSeller ? "Updating..." : "Make Seller"}
