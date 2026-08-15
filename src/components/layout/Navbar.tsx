@@ -84,10 +84,16 @@ const Navbar = () => {
               )}
             </Link>
             {user?.role === "seller" && (
-              <Link to="/seller">Seller Dashboard</Link>
+              <Link to="/seller" className={navLinkClass}>
+                Seller Dashboard
+              </Link>
             )}
 
-            {user?.role === "admin" && <Link to="/admin">Admin Dashboard</Link>}
+            {user?.role === "admin" && (
+              <Link to="/admin" className={navLinkClass}>
+                Admin Dashboard
+              </Link>
+            )}
             {user ? (
               <button
                 type="button"
@@ -122,6 +128,18 @@ const Navbar = () => {
             <Link to="/" className={navLinkClass} onClick={closeMenu}>
               Home
             </Link>
+
+            {user?.role === "seller" && (
+              <Link to="/seller" className={navLinkClass} onClick={closeMenu}>
+                Seller Dashboard
+              </Link>
+            )}
+
+            {user?.role === "admin" && (
+              <Link to="/admin" className={navLinkClass} onClick={closeMenu}>
+                Admin Dashboard
+              </Link>
+            )}
 
             <Link
               to="/cart"
