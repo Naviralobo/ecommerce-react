@@ -5,6 +5,8 @@ import {
 } from "../../features/cart/cartApi";
 import toast from "react-hot-toast";
 
+import { normalizeImageUrl } from "../../utils/image";
+
 type Props = {
   item: CartItemType;
 };
@@ -57,7 +59,7 @@ const CartItem = ({ item }: Props) => {
   return (
     <div className="flex items-center gap-4 border-b border-gray-200 py-4">
       <img
-        src={item?.product?.images[0]}
+        src={normalizeImageUrl(item?.product?.images[0])}
         alt={item?.product?.name}
         className="w-24 h-24 object-contain"
       />

@@ -5,6 +5,7 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
 } from "../features/products/productApi";
+import { normalizeImageUrl } from "../utils/image";
 
 const AdminInventory = () => {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const AdminInventory = () => {
     page: 1,
     limit: 100,
   });
-  
+
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   const [deletingId, setDeletingId] = useState<string | null>(null);
@@ -132,7 +133,7 @@ const AdminInventory = () => {
                     <td className="p-4">
                       <div className="flex items-center gap-3">
                         <img
-                          src={product.images[0]}
+                          src={normalizeImageUrl(product.images[0])}
                           alt={product.name}
                           className="w-12 h-12 object-contain rounded-lg bg-gray-50"
                         />
@@ -201,7 +202,7 @@ const AdminInventory = () => {
               <div key={product._id} className="p-4 space-y-4">
                 <div className="flex gap-3">
                   <img
-                    src={product.images[0]}
+                    src={normalizeImageUrl(product.images[0])}
                     alt={product.name}
                     className="w-16 h-16 object-contain rounded-lg bg-gray-50"
                   />

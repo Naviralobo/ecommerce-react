@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useCreateOrderMutation } from "../features/order/orderApi";
 import { useGetCartQuery } from "../features/cart/cartApi";
 import PageWrapper from "../components/common/PageWrapper";
+import { normalizeImageUrl } from "../utils/image";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -220,7 +221,7 @@ const Checkout = () => {
               {items.map((item) => (
                 <div key={item.product._id} className="flex gap-3">
                   <img
-                    src={item.product.images[0]}
+                    src={normalizeImageUrl(item.product.images[0])}
                     alt={item.product.name}
                     className="w-14 h-14 object-contain rounded-lg bg-gray-50"
                   />

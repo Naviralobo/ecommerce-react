@@ -8,6 +8,7 @@ import {
 } from "../../features/products/productApi";
 import { useUploadImageMutation } from "../../features/upload/uploadApi";
 import type { Product } from "../../types/product";
+import { normalizeImageUrl } from "../../utils/image";
 
 interface ProductFormProps {
   product?: Product;
@@ -16,14 +17,11 @@ interface ProductFormProps {
 const ProductForm = ({ product }: ProductFormProps) => {
   const navigate = useNavigate();
 
-  const [createProduct, { isLoading: isCreating }] =
-    useCreateProductMutation();
+  const [createProduct, { isLoading: isCreating }] = useCreateProductMutation();
 
-  const [updateProduct, { isLoading: isUpdating }] =
-    useUpdateProductMutation();
+  const [updateProduct, { isLoading: isUpdating }] = useUpdateProductMutation();
 
-  const [uploadImage, { isLoading: isUploading }] =
-    useUploadImageMutation();
+  const [uploadImage, { isLoading: isUploading }] = useUploadImageMutation();
 
   const [form, setForm] = useState({
     name: "",
@@ -49,7 +47,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
       stock: String(product.stock),
     });
 
-    setImagePreview(product.images[0] ?? "");
+    setImagePreview(normalizeImageUrl(product.images[0]) ?? "");
   }, [product]);
 
   const handleChange = (
@@ -61,9 +59,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
     }));
   };
 
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -134,8 +130,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
     }
   };
 
-  const isSubmitting =
-    isUploading || isCreating || isUpdating;
+  const isSubmitting = isUploading || isCreating || isUpdating;
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-6">
@@ -164,9 +159,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
         className="bg-(--color-surface) p-5 sm:p-6 rounded-xl shadow-sm border border-gray-200 space-y-5"
       >
         <div>
-          <label className="block text-sm font-medium mb-2">
-            Product name
-          </label>
+          <label className="block text-sm font-medium mb-2">Product name</label>
 
           <input
             name="name"
@@ -180,9 +173,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">
-            Description
-          </label>
+          <label className="block text-sm font-medium mb-2">Description</label>
 
           <textarea
             name="description"
@@ -198,9 +189,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Price
-            </label>
+            <label className="block text-sm font-medium mb-2">Price</label>
 
             <input
               name="price"
@@ -215,9 +204,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2">
-              Stock
-            </label>
+            <label className="block text-sm font-medium mb-2">Stock</label>
 
             <input
               name="stock"
@@ -233,9 +220,7 @@ const ProductForm = ({ product }: ProductFormProps) => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">
-            Category
-          </label>
+          <label className="block text-sm font-medium mb-2">Category</label>
 
           <input
             name="category"

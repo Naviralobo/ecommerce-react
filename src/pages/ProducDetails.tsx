@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 
 import { useGetProductByIdQuery } from "../features/products/productApi";
 import ProductDetailsSkeleton from "../components/ui/ProductDetailsSkeleton";
+import { normalizeImageUrl } from "../utils/image";
 
 import {
   useAddToCartMutation,
@@ -87,7 +88,7 @@ const ProductDetails = () => {
     <div className="grid md:grid-cols-2 gap-10">
       <div className="bg-(--color-surface) p-6 rounded-xl flex justify-center">
         <img
-          src={product.images[0]}
+          src={normalizeImageUrl(product.images[0])}
           className="h-80 object-contain"
           alt={product.name}
         />

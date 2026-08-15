@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Heart } from "lucide-react";
 import toast from "react-hot-toast";
 
+import { normalizeImageUrl } from "../../utils/image";
+
 import {
   useAddToWishlistMutation,
   useGetWishlistQuery,
@@ -60,7 +62,7 @@ const ProductCard = ({ product }: Props) => {
     >
       <div className="h-40 flex items-center justify-center">
         <img
-          src={product.images[0]}
+          src={normalizeImageUrl(product.images[0])}
           alt={product.name}
           className="h-full object-contain"
         />
