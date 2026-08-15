@@ -5,6 +5,7 @@ import { Heart, Menu, ShoppingCart, X } from "lucide-react";
 // import { useCartStore } from "../../store/CartStore";
 import { navLinkClass } from "../../utils/styles";
 import { useGetWishlistQuery } from "../../features/wishlist/wishlistApi";
+import { useGetCartQuery } from "../../features/cart/cartApi";
 import { useLogoutMutation } from "../../features/auth/authApi";
 import { logout } from "../../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux";
@@ -22,9 +23,11 @@ const Navbar = () => {
 
   const [logoutUser, { isLoading: isLoggingOut }] = useLogoutMutation();
 
+  const { data: cartData } = useGetCartQuery();
+
   // const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const wishlistCount = data?.data.products.length ?? 0;
-
+  const cartCount = cartData?.data?.items?.length ?? 0;
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
@@ -63,6 +66,11 @@ const Navbar = () => {
               className="relative text-(--color-muted) hover:text-(--color-text) transition"
             >
               <ShoppingCart />
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-3 bg-(--color-accent) text-white text-xs px-1.5 py-0.5 rounded-full">
+                  {cartCount}
+                </span>
+              )}
 
               {/* {totalItems > 0 && (
                 <span className="absolute -top-2 -right-3 bg-(--color-accent) text-white text-xs px-1.5 py-0.5 rounded-full">

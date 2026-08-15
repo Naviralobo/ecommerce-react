@@ -52,20 +52,20 @@ const CartItem = ({ item }: Props) => {
     }
   };
 
-  const subtotal = item.product.price * item.quantity;
+  const subtotal = item?.product?.price * item.quantity;
 
   return (
     <div className="flex items-center gap-4 border-b border-gray-200 py-4">
       <img
-        src={item.product.images[0]}
-        alt={item.product.name}
+        src={item?.product?.images[0]}
+        alt={item?.product?.name}
         className="w-24 h-24 object-contain"
       />
 
       <div className="flex-1">
-        <h2 className="font-medium">{item.product.name}</h2>
+        <h2 className="font-medium">{item?.product?.name}</h2>
 
-        <p className="mt-1 text-sm text-gray-500">${item.product.price}</p>
+        <p className="mt-1 text-sm text-gray-500">${item?.product?.price}</p>
 
         <div className="flex items-center gap-3 mt-3">
           <button
@@ -77,7 +77,7 @@ const CartItem = ({ item }: Props) => {
             −
           </button>
 
-          <span>{item.quantity}</span>
+          <span>{item?.quantity}</span>
 
           <button
             type="button"

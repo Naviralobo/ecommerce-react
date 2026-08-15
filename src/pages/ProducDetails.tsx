@@ -32,9 +32,9 @@ const ProductDetails = () => {
 
   const cartItem = cartData?.data.items.find((item) => {
     const cartProductId =
-      typeof item.product === "string" ? item.product : item.product._id;
+      typeof item?.product === "string" ? item?.product : item?.product?._id;
 
-    return cartProductId === product._id;
+    return cartProductId === product?._id;
   });
 
   const quantity = cartItem?.quantity ?? 0;

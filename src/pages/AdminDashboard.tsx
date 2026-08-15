@@ -19,8 +19,6 @@ const AdminDashboard = () => {
 
   const sellers = users.filter((user) => user.role === "seller").length;
 
-  const admins = users.filter((user) => user.role === "admin").length;
-
   const handleMakeSeller = async (userId: string) => {
     try {
       await makeSeller({ userId }).unwrap();

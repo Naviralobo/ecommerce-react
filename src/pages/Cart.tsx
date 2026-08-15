@@ -5,8 +5,10 @@ import {
   useGetCartQuery,
 } from "../features/cart/cartApi";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const { data, isLoading, error } = useGetCartQuery();
 
   const [clearCart, { isLoading: isClearing }] = useClearCartMutation();
@@ -30,7 +32,7 @@ const Cart = () => {
   const items = data?.data.items ?? [];
 
   const total = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
+    (sum, item) => sum + item?.product?.price * item?.quantity,
     0,
   );
 
@@ -71,7 +73,7 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           {items.map((item) => (
-            <CartItem key={item.product._id} item={item} />
+            <CartItem key={item?.product?._id} item={item} />
           ))}
         </div>
 
@@ -90,7 +92,8 @@ const Cart = () => {
 
           <button
             type="button"
-            className="w-full mt-6 rounded-lg bg-(--color-primary) py-3 text-white"
+            onClick={() => navigate("/checkout")}
+            className="w-full mt-4 bg-(--color-accent) text-white py-3 rounded-lg font-medium hover:opacity-90"
           >
             Proceed to Checkout
           </button>

@@ -11,6 +11,8 @@ import SellerDashboard from "./pages/SellerDashboard";
 import Wishlist from "./pages/Wishlist";
 import AdminInventory from "./pages/AdminInventory";
 import AdminProductForm from "./pages/AdminProductForm";
+import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
 
 import "./index.css";
 import ScrollToTop from "./components/common/ScrollToTop";
@@ -38,6 +40,8 @@ function App() {
           <Route path="/seller" element={<SellerDashboard />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/orders" element={<Orders />} />
         </Route>
       </Routes>
     </MainLayout>
