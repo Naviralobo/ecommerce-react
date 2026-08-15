@@ -9,8 +9,11 @@ import {
 const AdminInventory = () => {
   const navigate = useNavigate();
 
-  const { data, isLoading, isError } = useGetProductsQuery();
-
+  const { data, isLoading, isError } = useGetProductsQuery({
+    page: 1,
+    limit: 100,
+  });
+  
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   const [deletingId, setDeletingId] = useState<string | null>(null);

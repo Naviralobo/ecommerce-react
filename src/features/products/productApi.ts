@@ -18,10 +18,19 @@ export interface UpdateProductRequest {
 
 export const productApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query<ApiResponse<Product[]>, void>({
-      query: () => ({
+    getProducts: builder.query<
+      ApiResponse<Product[]>,
+      { search?: string; page?: number; limit?: number; category?: string }
+    >({
+      query: ({ search = "", page = 1, limit = 10, category }) => ({
         url: "/products",
         method: "GET",
+        params: {
+          search,
+          page,
+          limit,
+          category,
+        },
       }),
 
       providesTags: ["Product"],
