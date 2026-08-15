@@ -6,10 +6,14 @@ interface AuthState {
   accessToken: string | null;
 }
 
-const initialState: AuthState = {
-  user: null,
-  accessToken: null,
-};
+const storedAuth = localStorage.getItem("auth");
+
+const initialState: AuthState = storedAuth
+  ? JSON.parse(storedAuth)
+  : {
+      user: null,
+      accessToken: null,
+    };
 
 const authSlice = createSlice({
   name: "auth",
@@ -17,17 +21,24 @@ const authSlice = createSlice({
   initialState,
 
   reducers: {
-    setCredentials(
-      state,
-      action: PayloadAction<AuthData>
-    ) {
+    setCredentials(state, action: PayloadAction<AuthData>) {
       state.user = action.payload.user;
       state.accessToken = action.payload.accessToken;
+
+      localStorage.setItem(
+        "auth",
+        JSON.stringify({
+          user: state.user,
+          accessToken: state.accessToken,
+        }),
+      );
     },
 
     logout(state) {
       state.user = null;
       state.accessToken = null;
+
+      localStorage.removeItem("auth");
     },
   },
 });
