@@ -8,9 +8,12 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
     >
+      
       {children}
     </motion.div>
   );
 };
 
 export default PageWrapper;
+
+// Just for git to confirm this page
