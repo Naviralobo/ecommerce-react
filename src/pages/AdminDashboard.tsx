@@ -54,7 +54,7 @@ const AdminDashboard = () => {
 
             <tbody>
               {users.map((user) => (
-                <tr key={user.id} className="border-b border-gray-100">
+                <tr key={user._id} className="border-b border-gray-100">
                   <td className="p-4">{user.name}</td>
                   <td className="p-4">{user.email}</td>
                   <td className="p-4 capitalize">{user.role}</td>
@@ -82,7 +82,7 @@ const AdminDashboard = () => {
         {/* Mobile */}
         <div className="md:hidden divide-y divide-gray-100">
           {users.map((user) => (
-            <div key={user.id} className="p-4 space-y-3">
+            <div key={user._id} className="p-4 space-y-3">
               <div>
                 <p className="font-medium">{user.name}</p>
                 <p className="text-sm text-(--color-muted)">{user.email}</p>
@@ -95,7 +95,7 @@ const AdminDashboard = () => {
                   <button
                     type="button"
                     disabled={isMakingSeller}
-                    onClick={() => handleMakeSeller(user.id)}
+                    onClick={() => handleMakeSeller(user._id)}
                     className="bg-(--color-accent) text-white px-3 py-2 rounded-lg text-sm disabled:opacity-50"
                   >
                     {isMakingSeller ? "Updating..." : "Make Seller"}

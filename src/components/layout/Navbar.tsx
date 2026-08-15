@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Heart, Menu, ShoppingCart, X } from "lucide-react";
 
-import { useCartStore } from "../../store/CartStore";
+// import { useCartStore } from "../../store/CartStore";
 import { navLinkClass } from "../../utils/styles";
 import { useGetWishlistQuery } from "../../features/wishlist/wishlistApi";
 import { useLogoutMutation } from "../../features/auth/authApi";
@@ -15,14 +15,14 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const cart = useCartStore((state) => state.cart);
+  // const cart = useCartStore((state) => state.cart);
   const { data } = useGetWishlistQuery();
 
   const user = useAppSelector((state) => state.auth.user);
 
   const [logoutUser, { isLoading: isLoggingOut }] = useLogoutMutation();
 
-  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+  // const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const wishlistCount = data?.data.products.length ?? 0;
 
   const closeMenu = () => {
@@ -64,11 +64,11 @@ const Navbar = () => {
             >
               <ShoppingCart />
 
-              {totalItems > 0 && (
+              {/* {totalItems > 0 && (
                 <span className="absolute -top-2 -right-3 bg-(--color-accent) text-white text-xs px-1.5 py-0.5 rounded-full">
                   {totalItems}
                 </span>
-              )}
+              )} */}
             </Link>
 
             <Link
@@ -130,11 +130,11 @@ const Navbar = () => {
             >
               <span>Cart</span>
 
-              {totalItems > 0 && (
+              {/* {totalItems > 0 && (
                 <span className="bg-(--color-accent) text-white text-xs px-2 py-1 rounded-full">
                   {totalItems}
                 </span>
-              )}
+              )} */}
             </Link>
 
             <Link
