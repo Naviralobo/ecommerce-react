@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import type React from "react";
+import type { ReactNode } from "react";
 
-const PageWrapper = ({ children }: { children: React.ReactNode }) => {
+const PageWrapper = ({ children }: { children: ReactNode }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -9,7 +9,6 @@ const PageWrapper = ({ children }: { children: React.ReactNode }) => {
       exit={{ opacity: 0, y: -10 }}
       transition={{ duration: 0.3 }}
     >
-      
       {children}
     </motion.div>
   );
